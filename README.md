@@ -1,78 +1,82 @@
-nforme Técnico: Mapeo Espacial de Patrones Rectilíneos
+Technical Report: Spatial Mapping of Rectilinear Patterns
 
-Candidato: Endika
+Candidate: Endika
 
-Fecha de entrega: 02.03.2026
+Submission Date: 02.03.2026
 
-Herramientas utilizadas: Gemini 3 Flash (Asistencia en derivación matemática y visualización).
-1. Introducción
+Tools Used: Gemini 3 Flash (Assistance in mathematical derivation and visualization).
 
-El objetivo de este estudio es definir las transformaciones geométricas necesarias para proyectar un patrón rectilíneo, definido en una plantilla de dimensiones W×H, sobre dos topologías distintas: un anillo circular 2D y un cilindro 3D. Este proceso es fundamental en la ingeniería de tejidos para adaptar andamios (scaffolds) planos a geometrías anatómicas curvas.
-2. Parte A: Mapeo Circular 2D (Anillo)
+## 1. Introduction
 
-Se requiere transformar el plano cartesiano (x,y) en un sistema de coordenadas polares (r,θ), donde el eje x controla el avance angular y el eje y el radio.
-Derivación de Ecuaciones
+The objective of this study is to define the geometric transformations necessary to project a rectilinear pattern, defined in a template of dimensions W×H, onto two distinct topologies: a 2D circular ring and a 3D cylinder. This process is fundamental in tissue engineering to adapt flat scaffolds to curved anatomical geometries.
 
-Para asegurar una cobertura total de 360∘ (2π radianes):
+## 2. Part A: 2D Circular Mapping (Ring)
 
-    Variable Angular: θ=Wx​⋅2π
+It is required to transform the Cartesian plane (x,y) into a polar coordinate system (r,θ), where the x-axis controls the angular advance and the y-axis controls the radius.
 
-    Variable Radial: r=Rin​+y (donde Rin​ es el radio interno del anillo).
+### Equation Derivation
 
-Transformación a Coordenadas Cartesianas (x′,y′):
-x′=(Rin​+y)⋅cos(W2πx​)
-y′=(Rin​+y)⋅sin(W2πx​)
-Coordenadas de las Esquinas
+To ensure complete coverage of 360° (2π radians):
 
-Para una plantilla con W=10,H=5 y Rin​=2:
+- **Angular Variable:** θ = (x/W) · 2π
 
-    (0, 0): (2⋅cos(0),2⋅sin(0))=(2,0)
+- **Radial Variable:** r = R_in + y (where R_in is the inner radius of the ring)
 
-    (W, 0): (2⋅cos(2π),2⋅sin(2π))=(2,0)
+**Transformation to Cartesian Coordinates (x′,y′):**
 
-    (W, H): (7⋅cos(2π),7⋅sin(2π))=(7,0)
+x′ = (R_in + y) · cos((2πx)/W)
 
-    (0, H): (7⋅cos(0),7⋅sin(0))=(7,0)
+y′ = (R_in + y) · sin((2πx)/W)
 
-3. Parte B: Mapeo Cilíndrico 3D
+### Corner Coordinates
 
-Se proyecta la plantilla sobre la superficie de un cilindro de radio R. El eje x se convierte en la longitud de arco circunferencial y el eje y en la altura z.
-Derivación de Ecuaciones
+For a template with W=10, H=5, and R_in=2:
 
-    Ángulo de fase: ϕ=Rx​
+- (0, 0): (2·cos(0), 2·sin(0)) = (2, 0)
+- (W, 0): (2·cos(2π), 2·sin(2π)) = (2, 0)
+- (W, H): (7·cos(2π), 7·sin(2π)) = (7, 0)
+- (0, H): (7·cos(0), 7·sin(0)) = (7, 0)
 
-    Altura: z=y
+## 3. Part B: 3D Cylindrical Mapping
 
-Función de Transformación General:
-x′=R⋅cos(Rx​)
-y′=R⋅sin(Rx​)
-z′=y
-Coordenadas de las Esquinas (Caso W=2πR)
+The template is projected onto the surface of a cylinder with radius R. The x-axis becomes the circumferential arc length and the y-axis becomes the height z.
 
-Cuando el ancho iguala el perímetro, el patrón cierra perfectamente:
+### Equation Derivation
 
-    (0, 0): (R,0,0)
+- **Phase Angle:** ϕ = x/R
+- **Height:** z = y
 
-    (W, 0): (R,0,0)
+**General Transformation Function:**
 
-    (W, H): (R,0,H)
+x′ = R · cos(x/R)
 
-    (0, H): (R,0,H)
+y′ = R · sin(x/R)
 
-4. Razonamiento y Proceso de Resolución
+z′ = y
 
-Mi enfoque para este problema se basó en los siguientes puntos:
+### Corner Coordinates (Case W=2πR)
 
-    Continuidad Topológica: Seleccioné transformaciones que garantizan que el punto x=0 y x=W coincidan en el espacio transformado. Esto permite que patrones complejos (como el honeycomb) no presenten costuras ni saltos visuales.
+When the width equals the perimeter, the pattern closes perfectly:
 
-    Escalabilidad: Las ecuaciones propuestas son paramétricas; permiten ajustar el radio interno o el radio del cilindro según los requisitos específicos del biomodelo sin cambiar la lógica del algoritmo.
+- (0, 0): (R, 0, 0)
+- (W, 0): (R, 0, 0)
+- (W, H): (R, 0, H)
+- (0, H): (R, 0, H)
 
-    Validación Visual: Se desarrolló un script en Python utilizando la librería matplotlib para verificar que la deformación de la rejilla (grid) fuera coherente con la geometría diferencial esperada.
+## 4. Reasoning and Resolution Process
 
-5. Citas y Referencias
+My approach to this problem was based on the following points:
 
-    IA Utilizada: Gemini 3 Flash.
+- **Topological Continuity:** I selected transformations that ensure the points x=0 and x=W coincide in the transformed space. This allows complex patterns (such as honeycomb) to present no seams or visual jumps.
 
-    Prompts: 1. "Deriva las ecuaciones de transformación para mapear un rectángulo de WxH a un anillo y a un cilindro."
-    2. "Genera un script de Python con Matplotlib para visualizar una rejilla rectangular transformada en un anillo 2D y un cilindro 3D."
-    3. "Explícame la utilidad de estas transformaciones en el diseño de biomodelos de cartílago."
+- **Scalability:** The proposed equations are parametric; they allow adjusting the inner radius or cylinder radius according to specific biomodel requirements without changing the algorithm logic.
+
+- **Visual Validation:** A Python script was developed using the matplotlib library to verify that the grid deformation was coherent with the expected differential geometry.
+
+## 5. Citations and References
+
+- **AI Used:** Gemini 3 Flash
+- **Prompts:**
+  1. "Derive the transformation equations to map a WxH rectangle to a ring and a cylinder."
+  2. "Generate a Python script with Matplotlib to visualize a rectangular grid transformed into a 2D ring and a 3D cylinder."
+  3. "Explain the utility of these transformations in the design of cartilage biomodels."
